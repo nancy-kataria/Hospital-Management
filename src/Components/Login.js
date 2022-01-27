@@ -4,8 +4,9 @@ import { Button } from "@material-ui/core";
 import {Link} from 'react-router-dom'
 
 function Login() {
+
   return (
-    <div className="login">
+    <form id='form' className="login">
       <div className="tagline">
         <h1>The Spirit of caring</h1>
         <h1>close to Home.</h1>
@@ -19,6 +20,7 @@ function Login() {
             variant="outlined"
           />
         </div>
+        <p id='user-name'></p>
         <div className="login-field">
           <TextField
             className="textfield"
@@ -27,6 +29,7 @@ function Login() {
             variant="outlined"
           />
         </div>
+        <p id='pass'></p>
         <div className="login-field">
           <Link to='/portal'>
           <Button variant="contained" id="login-button">
@@ -37,12 +40,12 @@ function Login() {
         <hr></hr>
         <p>Don't have an account? Make one</p>
         <div className="login-field">
-          <Button variant="contained" id="signup-button">
-            Sign Up
+          <Button type="submit" variant="contained" id="signup-button">
+            Sign Up 
           </Button>
         </div>
       </div>
-    </div>
+    </form>
   );
 }
 
