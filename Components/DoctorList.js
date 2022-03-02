@@ -1,7 +1,7 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Box, Button, Modal, Paper, TextField } from "@material-ui/core";
-import { Delete, Edit } from "@material-ui/icons";
 import { DataGrid } from "@material-ui/data-grid";
+import { Edit, Delete } from "@material-ui/icons";
 
 const boxModal = {
   position: "absolute",
@@ -19,7 +19,7 @@ const boxModal = {
 
 const columns = [
   { field: "name", headerName: "Name", width: 300 },
-  { field: "department", headerName: "Department", width: 300 },
+  { field: "speciality", headerName: "Speciality", width: 300 },
   {
     field: "city",
     headerName: "City",
@@ -27,16 +27,16 @@ const columns = [
   },
   {
     field: "experience",
-    headerName: "Experience(months)",
+    headerName: "Experience(years)",
     width: 250,
-    //   format: (value) => value.toLocaleString("en-US"),
+    format: (value) => value.toLocaleString("en-US"),
   },
 ];
 
-function createData(name, department, city, experience) {
+function createData(name, speciality, city, experience) {
   return {
     name,
-    department,
+    speciality,
     city,
     experience,
     id: Math.random().toString(36).substring(2, 9),
@@ -44,32 +44,32 @@ function createData(name, department, city, experience) {
 }
 
 const rows = [
-  createData("Nancy Kataria", "Attending physician", "Hoshiarpur", 3),
-  createData("Nikhil Srivastava", "Registered nurse", "Jaipur", 7),
-  createData("Maya Sharma", "practical nurse", "Chandigarh", 12),
-  createData("Harjot Singh Gill", "Nurse practitioner", "Ludhiana", 31),
-  createData("Raveesh Malhotra", "Physicians assistant", "Jalandhar", 27),
-  createData("Jatin Kumar", "Patient advocate", "Ludhiana", 9),
-  createData("Aman Juyal", "Patient care technician", "Kharar", 1),
-  createData("Negi Karn", "Physical therapist", "Mohali", 13),
-  createData("Prikshit Saraswat", "Occupational therapist", "Panchkula", 20),
-  createData("Siddharth Bharmoria", "Speech pathologist", "Kharar", 5),
-  createData("Manya Sharma", "Hospital pharmacist", "Chandigarh", 19),
-  createData("Sunny Kumar", "Social worker", "Panchkula", 11),
-  createData("Scooby Dooby", "Dietitian", "Mohali", 2),
-  createData("Tanmya Viswas", "Interpreter", "Ahemdabad", 8),
-  createData("Rishabh Kant", "Hospital pharmacist", "Kanpur", 0),
-  createData("Anoop Patel", "Occupational therapist", "Mirzapur", 1),
+  createData("Nancy Kataria", "Neurologist", "Hoshiarpur", 1),
+  createData("Nikhil Srivastava", "Cardio surgeon", "Jaipur", 9),
+  createData("Maya Sharma", "Gynecologist", "Chandigarh", 3),
+  createData("Harjot Singh Gill", "Neurosurgeon", "Ludhiana", 2),
+  createData("Raveesh Malhotra", "Pediatrician", "Jalandhar", 5),
+  createData("Jatin Kumar", "Oncologist", "Ludhiana", 1),
+  createData("Aman Juyal", "Dermatologist", "Kharar", 5),
+  createData("Negi Karn", "General Surgeon", "Mohali", 2),
+  createData("Prikshit Saraswat", "Dentist", "Panchkula", 7),
+  createData("Siddharth Bharmoria", "Cardiologist", "Kharar", 0),
+  createData("Manya Sharma", "Diagnosis", "Chandigarh", 0),
+  createData("Sunny Kumar", "Neurologist", "Panchkula", 4),
+  createData("Scooby Dooby", "Gastrologist", "Mohali", 1),
+  createData("Tanmya Viswas", "Orthodontist", "Ahemdabad", 4),
+  createData("Rishabh Kant", "Cardiologist", "Kanpur", 7),
+  createData("Anoop Patel", "Dentist", "Mirzapur", 1),
 ];
 
-function StaffList({ roleType }) {
-  const [staffList, setStaffList] = useState([]);
+function DoctorList({ roleType }) {
+  const [doctorsList, setDoctorsList] = useState([]);
   const [tableColumn, setTableColumn] = useState([]);
   const [showEditModal, toggleEditModal] = useState(false);
   const [showDeleteConfirmation, toggleDeleteModal] = useState(false);
   const [modalType, setModalType] = useState(undefined);
   const gridTableApiRef = useRef(null);
-  const [currentStaffEditDetails, setCurrentStaffEdit] = useState(undefined);
+  const [currentDoctorEditDetails, setCurrentDoctorEdit] = useState(undefined);
   const [userToBeDeleted, setUserToBeDeleted] = useState(undefined);
 
   useEffect(() => {
@@ -84,7 +84,7 @@ function StaffList({ roleType }) {
               <Button onClick={() => onEditDoctor(params)}>
                 <Edit />
               </Button>
-              <Button onClick={() => onDeleteStaff(params)}>
+              <Button onClick={() => onDeleteDoctor(params)}>
                 <Delete />
               </Button>
             </>
@@ -92,28 +92,23 @@ function StaffList({ roleType }) {
         },
       });
     }
+
     setTableColumn(columns);
-    setStaffList(rows);
+
+    setDoctorsList(rows);
   }, [roleType]);
 
   function onEditDoctor(params) {
     toggleEditModal(true);
-    console.log(params);
-    setCurrentStaffEdit(params.row);
+    setCurrentDoctorEdit(params.row);
+    setModalType("edit");
 
     if (!gridTableApiRef.current) {
       gridTableApiRef.current = params.api;
     }
   }
 
-  function handleModalInputChange(e) {
-    const { name, value } = e.target;
-    const userData = { ...currentStaffEditDetails };
-    userData[name] = value;
-    setCurrentStaffEdit(userData);
-  }
-
-  function onDeleteStaff(params) {
+  function onDeleteDoctor(params) {
     setUserToBeDeleted(params.row);
     toggleDeleteModal(true);
 
@@ -122,22 +117,29 @@ function StaffList({ roleType }) {
     }
   }
 
+  function handleModalInputChange(e) {
+    const { name, value } = e.target;
+    const userData = { ...currentDoctorEditDetails };
+    userData[name] = value;
+    setCurrentDoctorEdit(userData);
+  }
+
   function saveEditedData() {
     // TODO: validate data
 
     const rowIndex = gridTableApiRef.current.getRowIndex(
-      currentStaffEditDetails.id
+      currentDoctorEditDetails.id
     );
-    const tableRows = [...staffList];
-    tableRows[rowIndex] = currentStaffEditDetails;
-    setStaffList(tableRows);
+    const tableRows = [...doctorsList];
+    tableRows[rowIndex] = currentDoctorEditDetails;
+    setDoctorsList(tableRows);
     toggleEditModal(false);
-    setCurrentStaffEdit(undefined);
+    setCurrentDoctorEdit(undefined);
   }
 
   function discardEditChanges() {
     toggleEditModal(false);
-    setCurrentStaffEdit(undefined);
+    setCurrentDoctorEdit(undefined);
   }
 
   function discardDelete() {
@@ -147,9 +149,9 @@ function StaffList({ roleType }) {
 
   function deleteUser() {
     const rowIndex = gridTableApiRef.current.getRowIndex(userToBeDeleted.id);
-    const tableRows = [...staffList];
+    const tableRows = [...doctorsList];
     tableRows.splice(rowIndex, 1);
-    setStaffList(tableRows);
+    setDoctorsList(tableRows);
     toggleDeleteModal(false);
     setUserToBeDeleted(undefined);
   }
@@ -157,30 +159,35 @@ function StaffList({ roleType }) {
   function onAddNew() {
     toggleEditModal(true);
     setModalType("new");
-    setCurrentStaffEdit(createData("", "", "", ""));
+    setCurrentDoctorEdit(createData("", "", "", ""));
   }
 
   function addNewUser() {
-    const tableRows = [...staffList];
-    tableRows.push(currentStaffEditDetails);
-    setStaffList(tableRows);
+    const tableRows = [...doctorsList];
+    tableRows.push(currentDoctorEditDetails);
+    setDoctorsList(tableRows);
     toggleEditModal(false);
-    setCurrentStaffEdit(undefined);
+    setCurrentDoctorEdit(undefined);
   }
 
   return (
-    <div className="staff-list">
+    <div className="doctor-list">
       <Paper sx={{ width: "100%", overflow: "hidden" }}>
         <div style={{ height: 400, width: "100%" }}>
           <DataGrid
-            rows={staffList}
+            rows={doctorsList}
             columns={tableColumn}
             pageSize={10}
             rowsPerPageOptions={[10, 25, 50]}
           />
 
           {roleType === "admin" && (
-            <Button id="safe" className="add-button" variant="contained" onClick={onAddNew}>
+            <Button
+              id="safe"
+              className="add-button"
+              variant="contained"
+              onClick={onAddNew}
+            >
               Add New
             </Button>
           )}
@@ -196,101 +203,50 @@ function StaffList({ roleType }) {
             <Box sx={boxModal}>
               <div className="text-fields">
                 <TextField
-                className="edit-fields"
+                  className="edit-fields"
                   id="outlined-basic"
                   name="name"
                   label="Name"
                   variant="outlined"
-                  value={currentStaffEditDetails.name}
+                  value={currentDoctorEditDetails.name}
                   onChange={handleModalInputChange}
                 />
                 <TextField
-                className="edit-fields"
+                  className="edit-fields"
                   id="outlined-basic"
-                  name="department"
-                  label="Department"
+                  name="speciality"
+                  label="Speciality"
                   variant="outlined"
-                  value={currentStaffEditDetails.department}
+                  value={currentDoctorEditDetails.speciality}
                   onChange={handleModalInputChange}
                 />
               </div>
               <div className="text-fields">
                 <TextField
-                className="edit-fields"
+                  className="edit-fields"
                   id="outlined-basic"
                   name="city"
                   label="City"
                   variant="outlined"
-                  value={currentStaffEditDetails.city}
+                  value={currentDoctorEditDetails.city}
                   onChange={handleModalInputChange}
                 />
                 <TextField
-                className="edit-fields"
+                  className="edit-fields"
                   id="outlined-basic"
                   type="number"
                   name="experience"
                   label="Experience"
                   variant="outlined"
-                  value={currentStaffEditDetails.experience}
+                  value={currentDoctorEditDetails.experience}
                   onChange={handleModalInputChange}
                 />
               </div>
-              {modalType === "edit" && (
-                <div className="modal-buttons">
-                  <Button
-                    className="modal-button"
-                    id='safe'
-                    variant="contained"
-                    onClick={saveEditedData}
-                  >
-                    Save Details
-                  </Button>
-                  <Button
-                    className="modal-button"
-                    id='danger'
-                    variant="contained"
-                    onClick={discardEditChanges}
-                  >
-                    Discard
-                  </Button>
-                </div>
-              )}
-               {modalType === "new" && (
-                <div className="modal-buttons">
-                  <Button
-                    className="modal-button"
-                    id='safe'
-                    variant="contained"
-                    onClick={addNewUser}
-                  >
-                    Add
-                  </Button>
-                  <Button
-                    className="modal-button"
-                    id='danger'
-                    variant="contained"
-                    onClick={discardEditChanges}
-                  >
-                    Cancel
-                  </Button>
-                </div>
-              )}
-            </Box>
-          </Modal>
-        )}
-
-        {showDeleteConfirmation && (
-          <Modal
-            open={true}
-            onClose={() => {
-              toggleDeleteModal(false);
-            }}
-          >
-            <Box sx={boxModal}>
               <div className="edit-modal-action">
                 {modalType === "edit" && (
-                  <>
+                  <div className="modal-buttons">
                     <Button
+                      className="modal-button"
                       id="safe"
                       variant="contained"
                       onClick={saveEditedData}
@@ -298,27 +254,34 @@ function StaffList({ roleType }) {
                       Save Details
                     </Button>
                     <Button
+                      className="modal-button"
                       id="danger"
                       variant="contained"
                       onClick={discardEditChanges}
                     >
                       Discard
                     </Button>
-                  </>
+                  </div>
                 )}
                 {modalType === "new" && (
-                  <>
-                    <Button id="safe" variant="contained" onClick={addNewUser}>
+                  <div className="modal-buttons">
+                    <Button
+                      className="modal-button"
+                      id="safe"
+                      variant="contained"
+                      onClick={addNewUser}
+                    >
                       Add
                     </Button>
                     <Button
+                      className="modal-button"
                       id="danger"
                       variant="contained"
                       onClick={discardEditChanges}
                     >
                       Cancel
                     </Button>
-                  </>
+                  </div>
                 )}
               </div>
             </Box>
@@ -333,7 +296,7 @@ function StaffList({ roleType }) {
             }}
           >
             <Box sx={boxModal}>
-            <h3>Are you sure that you want to delete this user?</h3>
+              <h3>Are you sure that you want to delete this user?</h3>
               <div className="delete-modal-action">
                 <Button id="danger" variant="contained" onClick={deleteUser}>
                   Delete
@@ -350,4 +313,4 @@ function StaffList({ roleType }) {
   );
 }
 
-export default StaffList;
+export default DoctorList;

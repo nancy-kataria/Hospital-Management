@@ -1,0 +1,74 @@
+.image {
+  height: 29rem;
+  width: 35rem;
+}
+
+.patient-list,
+.doctor-list,
+.admin-list,
+.staff-list {
+  margin: 1rem 2rem;
+}
+
+.add-button {
+  margin-top: 2rem !important;
+}
+
+/* edit modal */
+
+.edit-fields {
+  width: 40ch;
+}
+
+.modal-button .modal-button {
+  width: 30ch !important;
+}
+
+.text-fields {
+  display: flex;
+  justify-content: space-around;
+  padding-bottom: 1.5rem;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+#safe {
+  color: #fff !important;
+  background-color: #005a9c !important;
+}
+
+#danger {
+  color: #fff !important;
+  background-color: #d2122e !important;
+}
+
+h3 {
+  font-family: sspBold, sans-serif;
+  font-weight: 400;
+  text-align: center;
+}
+
+.delete-modal-action {
+  display: flex;
+  justify-content: space-evenly;
+  margin-top: 1rem;
+}
+
+.statistics {
+  display: flex;
+  margin-top: 2.5rem;
+  margin-bottom: 5rem;
+}
+
+.chart {
+  margin-right: 3rem;
+}
+
+.chart > h2 {
+  color: #005a9c;
+  text-align: center;
+  margin: 1rem 0 1rem;
+}

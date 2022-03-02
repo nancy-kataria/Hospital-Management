@@ -1,0 +1,22 @@
+.header {
+    background-color: #005a9c;
+    display: flex;
+    justify-content: space-between;
+    height: 8vh;
+    padding: 1.2rem;
+    color: #fff;
+    position: sticky;
+    top: 0;
+    z-index: 3;
+  }
+  
+  .header-center,
+  .header-right {
+    display: flex;
+  }
+  
+  .header-buttons {
+    padding-left: 1.5rem !important;
+    padding-right: 1.5rem !important;
+    color: #fff !important;
+  }

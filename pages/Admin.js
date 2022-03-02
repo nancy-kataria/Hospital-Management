@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { Button } from "@material-ui/core";
-import DoctorList from "./DoctorList";
-import StaffList from "./StaffList";
-import AdminList from "./AdminList";
+import DoctorList from "../Components/DoctorList";
+import StaffList from "../Components/StaffList";
+import AdminList from "../Components/AdminList";
 import { ArrowBack } from "@material-ui/icons";
-import { Link } from "react-router-dom";
-import DoctorChart from "./DoctorChart";
-import StaffChart from "./StaffChart";
+import DoctorChart from "../Components/DoctorChart";
+import StaffChart from "../Components/StaffChart";
+import styles from "../styles/Home.module.css";
+import Link from "next/link";
 
 function Admin() {
   const [doctorList, setDoctorList] = useState(true);
@@ -32,35 +33,35 @@ function Admin() {
   };
 
   return (
-    <div className="admin">
-      <Link to="/portal">
-        <Button variant="text">
+    <div className={styles.admin}>
+      <Link href="/Portal" passHref>
+        <Button component="a" variant="text">
           <ArrowBack /> Back to Portal
         </Button>
       </Link>
-      <div className="list-choice">
-        <div className="list-selection">
+      <div className={styles.listChoice}>
+        <div className={styles.listSelection}>
           <Button
             variant="contained"
-            className="portal-button"
+            className={styles.portalButton}
             onClick={doctorListHandler}
           >
             List of Doctors
           </Button>
         </div>
-        <div className="list-selection">
+        <div className={styles.listSelection}>
           <Button
             variant="contained"
-            className="portal-button"
+            className={styles.portalButton}
             onClick={staffListHandler}
           >
             List of Staff Members
           </Button>
         </div>
-        <div className="list-selection">
+        <div className={styles.listSelection}>
           <Button
             variant="contained"
-            className="portal-button"
+            className={styles.portalButton}
             onClick={adminListHandler}
           >
             List of Admins
@@ -68,8 +69,8 @@ function Admin() {
         </div>
       </div>
       {doctorList && (
-        <div className="list">
-          <div className="list-name">
+        <div className={styles.list}>
+          <div className={styles.listName}>
             <h1>List of Doctors</h1>
           </div>
           <DoctorList roleType="admin" />
@@ -77,8 +78,8 @@ function Admin() {
         </div>
       )}
       {staffList && (
-        <div className="list">
-          <div className="list-name">
+        <div className={styles.list}>
+          <div className={styles.listName}>
             <h1>List of Staff Members</h1>
           </div>
           <StaffList roleType="admin" />
@@ -86,8 +87,8 @@ function Admin() {
         </div>
       )}
       {adminList && (
-        <div className="list">
-          <div className="list-name">
+        <div className={styles.list}>
+          <div className={styles.listName}>
             <h1>List of Admins</h1>
           </div>
           <AdminList roleType="admin" />
